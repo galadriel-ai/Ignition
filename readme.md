@@ -19,7 +19,7 @@ Additionally, Ignite CLI offers both Vue and React options for frontend scaffold
 
 For a Vue frontend, use: `ignite scaffold vue`
 For a React frontend, use: `ignite scaffold react`
-These commands can be run within your scaffolded blockchain project. 
+These commands can be run within your scaffolded blockchain project.
 
 
 For more information see the [monorepo for Ignite front-end development](https://github.com/ignite/web).
@@ -49,3 +49,25 @@ curl https://get.ignite.com/username/agent@latest! | sudo bash
 - [Ignite CLI docs](https://docs.ignite.com)
 - [Cosmos SDK docs](https://docs.cosmos.network)
 - [Developer Chat](https://discord.gg/ignite)
+
+
+# Stuff
+
+
+Basic setup
+```bash
+ignite scaffold chain agent
+cd agent
+ignite chain serve
+
+ignite scaffold vue
+ignite generate composables
+```
+
+For frontend
+```bash
+cd vue
+npm install
+npm run dev
+```
+

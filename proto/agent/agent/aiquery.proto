@@ -1,0 +1,10 @@
+syntax = "proto3";
+package agent.agent;
+
+option go_package = "agent/x/agent/types";
+
+message Aiquery {
+  
+  string question = 1; 
+  string answer = 2; 
+}

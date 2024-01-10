@@ -1,0 +1,17 @@
+syntax = "proto3";
+package agent.agent;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "agent/agent/params.proto";
+
+option go_package = "agent/x/agent/types";
+
+// GenesisState defines the agent module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

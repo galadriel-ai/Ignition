@@ -19,7 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName = "/agent.agent.Msg/UpdateParams"
+	Msg_UpdateParams_FullMethodName   = "/agent.agent.Msg/UpdateParams"
+	Msg_AskQuestion_FullMethodName    = "/agent.agent.Msg/AskQuestion"
+	Msg_AnswerQuestion_FullMethodName = "/agent.agent.Msg/AnswerQuestion"
 )
 
 // MsgClient is the client API for Msg service.
@@ -29,6 +31,8 @@ type MsgClient interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
+	AskQuestion(ctx context.Context, in *MsgAskQuestion, opts ...grpc.CallOption) (*MsgAskQuestionResponse, error)
+	AnswerQuestion(ctx context.Context, in *MsgAnswerQuestion, opts ...grpc.CallOption) (*MsgAnswerQuestionResponse, error)
 }
 
 type msgClient struct {
@@ -48,6 +52,24 @@ func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts 
 	return out, nil
 }
 
+func (c *msgClient) AskQuestion(ctx context.Context, in *MsgAskQuestion, opts ...grpc.CallOption) (*MsgAskQuestionResponse, error) {
+	out := new(MsgAskQuestionResponse)
+	err := c.cc.Invoke(ctx, Msg_AskQuestion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) AnswerQuestion(ctx context.Context, in *MsgAnswerQuestion, opts ...grpc.CallOption) (*MsgAnswerQuestionResponse, error) {
+	out := new(MsgAnswerQuestionResponse)
+	err := c.cc.Invoke(ctx, Msg_AnswerQuestion_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -55,6 +77,8 @@ type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
+	AskQuestion(context.Context, *MsgAskQuestion) (*MsgAskQuestionResponse, error)
+	AnswerQuestion(context.Context, *MsgAnswerQuestion) (*MsgAnswerQuestionResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -64,6 +88,12 @@ type UnimplementedMsgServer struct {
 
 func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
+}
+func (UnimplementedMsgServer) AskQuestion(context.Context, *MsgAskQuestion) (*MsgAskQuestionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AskQuestion not implemented")
+}
+func (UnimplementedMsgServer) AnswerQuestion(context.Context, *MsgAnswerQuestion) (*MsgAnswerQuestionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AnswerQuestion not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -96,6 +126,42 @@ func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AskQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAskQuestion)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AskQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AskQuestion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AskQuestion(ctx, req.(*MsgAskQuestion))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_AnswerQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAnswerQuestion)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AnswerQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AnswerQuestion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AnswerQuestion(ctx, req.(*MsgAnswerQuestion))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -106,6 +172,14 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateParams",
 			Handler:    _Msg_UpdateParams_Handler,
+		},
+		{
+			MethodName: "AskQuestion",
+			Handler:    _Msg_AskQuestion_Handler,
+		},
+		{
+			MethodName: "AnswerQuestion",
+			Handler:    _Msg_AnswerQuestion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

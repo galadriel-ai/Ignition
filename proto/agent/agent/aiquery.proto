@@ -7,4 +7,5 @@ message Aiquery {
   
   string question = 1; 
   string answer = 2; 
+  uint64 id = 3; 
 }

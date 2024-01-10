@@ -15,6 +15,14 @@ var (
 	ParamsKey = []byte("p_agent")
 )
 
+const (
+	QuestionKey = "Question/value/"
+)
+
+const (
+	QuestionCountKey = "Question/count/"
+)
+
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }

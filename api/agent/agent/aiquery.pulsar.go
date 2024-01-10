@@ -16,6 +16,7 @@ var (
 	md_Aiquery          protoreflect.MessageDescriptor
 	fd_Aiquery_question protoreflect.FieldDescriptor
 	fd_Aiquery_answer   protoreflect.FieldDescriptor
+	fd_Aiquery_id       protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -23,6 +24,7 @@ func init() {
 	md_Aiquery = File_agent_agent_aiquery_proto.Messages().ByName("Aiquery")
 	fd_Aiquery_question = md_Aiquery.Fields().ByName("question")
 	fd_Aiquery_answer = md_Aiquery.Fields().ByName("answer")
+	fd_Aiquery_id = md_Aiquery.Fields().ByName("id")
 }
 
 var _ protoreflect.Message = (*fastReflection_Aiquery)(nil)
@@ -102,6 +104,12 @@ func (x *fastReflection_Aiquery) Range(f func(protoreflect.FieldDescriptor, prot
 			return
 		}
 	}
+	if x.Id != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Id)
+		if !f(fd_Aiquery_id, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -121,6 +129,8 @@ func (x *fastReflection_Aiquery) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Question != ""
 	case "agent.agent.Aiquery.answer":
 		return x.Answer != ""
+	case "agent.agent.Aiquery.id":
+		return x.Id != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -141,6 +151,8 @@ func (x *fastReflection_Aiquery) Clear(fd protoreflect.FieldDescriptor) {
 		x.Question = ""
 	case "agent.agent.Aiquery.answer":
 		x.Answer = ""
+	case "agent.agent.Aiquery.id":
+		x.Id = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -163,6 +175,9 @@ func (x *fastReflection_Aiquery) Get(descriptor protoreflect.FieldDescriptor) pr
 	case "agent.agent.Aiquery.answer":
 		value := x.Answer
 		return protoreflect.ValueOfString(value)
+	case "agent.agent.Aiquery.id":
+		value := x.Id
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -187,6 +202,8 @@ func (x *fastReflection_Aiquery) Set(fd protoreflect.FieldDescriptor, value prot
 		x.Question = value.Interface().(string)
 	case "agent.agent.Aiquery.answer":
 		x.Answer = value.Interface().(string)
+	case "agent.agent.Aiquery.id":
+		x.Id = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -211,6 +228,8 @@ func (x *fastReflection_Aiquery) Mutable(fd protoreflect.FieldDescriptor) protor
 		panic(fmt.Errorf("field question of message agent.agent.Aiquery is not mutable"))
 	case "agent.agent.Aiquery.answer":
 		panic(fmt.Errorf("field answer of message agent.agent.Aiquery is not mutable"))
+	case "agent.agent.Aiquery.id":
+		panic(fmt.Errorf("field id of message agent.agent.Aiquery is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -228,6 +247,8 @@ func (x *fastReflection_Aiquery) NewField(fd protoreflect.FieldDescriptor) proto
 		return protoreflect.ValueOfString("")
 	case "agent.agent.Aiquery.answer":
 		return protoreflect.ValueOfString("")
+	case "agent.agent.Aiquery.id":
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: agent.agent.Aiquery"))
@@ -305,6 +326,9 @@ func (x *fastReflection_Aiquery) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if x.Id != 0 {
+			n += 1 + runtime.Sov(uint64(x.Id))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -333,6 +357,11 @@ func (x *fastReflection_Aiquery) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Id != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
+			i--
+			dAtA[i] = 0x18
 		}
 		if len(x.Answer) > 0 {
 			i -= len(x.Answer)
@@ -461,6 +490,25 @@ func (x *fastReflection_Aiquery) ProtoMethods() *protoiface.Methods {
 				}
 				x.Answer = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+				}
+				x.Id = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Id |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -516,6 +564,7 @@ type Aiquery struct {
 
 	Question string `protobuf:"bytes,1,opt,name=question,proto3" json:"question,omitempty"`
 	Answer   string `protobuf:"bytes,2,opt,name=answer,proto3" json:"answer,omitempty"`
+	Id       uint64 `protobuf:"varint,3,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *Aiquery) Reset() {
@@ -552,16 +601,24 @@ func (x *Aiquery) GetAnswer() string {
 	return ""
 }
 
+func (x *Aiquery) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 var File_agent_agent_aiquery_proto protoreflect.FileDescriptor
 
 var file_agent_agent_aiquery_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2f, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2f, 0x61, 0x69,
 	0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x61, 0x67, 0x65,
-	0x6e, 0x74, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x22, 0x3d, 0x0a, 0x07, 0x41, 0x69, 0x71, 0x75,
+	0x6e, 0x74, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x22, 0x4d, 0x0a, 0x07, 0x41, 0x69, 0x71, 0x75,
 	0x65, 0x72, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x71, 0x75, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x71, 0x75, 0x65, 0x73, 0x74, 0x69, 0x6f, 0x6e, 0x12,
 	0x16, 0x0a, 0x06, 0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x06, 0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x42, 0x8a, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e,
+	0x06, 0x61, 0x6e, 0x73, 0x77, 0x65, 0x72, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x42, 0x8a, 0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e,
 	0x61, 0x67, 0x65, 0x6e, 0x74, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x42, 0x0c, 0x41, 0x69, 0x71,
 	0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x1c, 0x63, 0x6f, 0x73,
 	0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x67,

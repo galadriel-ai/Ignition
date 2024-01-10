@@ -40,6 +40,137 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /agent/agent/show_question/{id}:
+    get:
+      summary: Queries a list of ShowQuestion items.
+      operationId: AgentAgentQuery_ShowQuestion
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              aiquery:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  id:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /agent.agent.Msg/AnswerQuestion:
+    post:
+      operationId: AgentAgentMsg_AnswerQuestion
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              answer:
+                type: string
+              id:
+                type: string
+                format: uint64
+      tags:
+        - Msg
+  /agent.agent.Msg/AskQuestion:
+    post:
+      operationId: AgentAgentMsg_AskQuestion
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              question:
+                type: string
+      tags:
+        - Msg
   /agent.agent.Msg/UpdateParams:
     post:
       summary: |-
@@ -88,10 +219,7 @@ paths:
                   authority is the address that controls the module (defaults to
                   x/gov unless overwritten).
               params:
-                description: |-
-                  params defines the module parameters to update.
-
-                  NOTE: All parameters must be supplied.
+                description: 'NOTE: All parameters must be supplied.'
                 type: object
             description: MsgUpdateParams is the Msg/UpdateParams request type.
       tags:
@@ -19330,6 +19458,16 @@ definitions:
                   "@type": "type.googleapis.com/google.protobuf.Duration",
                   "value": "1.212s"
                 }
+  agent.agent.Aiquery:
+    type: object
+    properties:
+      question:
+        type: string
+      answer:
+        type: string
+      id:
+        type: string
+        format: uint64
   agent.agent.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -19340,6 +19478,44 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  agent.agent.QueryShowQuestionResponse:
+    type: object
+    properties:
+      aiquery:
+        type: object
+        properties:
+          question:
+            type: string
+          answer:
+            type: string
+          id:
+            type: string
+            format: uint64
+  agent.agent.MsgAnswerQuestion:
+    type: object
+    properties:
+      creator:
+        type: string
+      answer:
+        type: string
+      id:
+        type: string
+        format: uint64
+  agent.agent.MsgAnswerQuestionResponse:
+    type: object
+  agent.agent.MsgAskQuestion:
+    type: object
+    properties:
+      creator:
+        type: string
+      question:
+        type: string
+  agent.agent.MsgAskQuestionResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
   agent.agent.MsgUpdateParams:
     type: object
     properties:
@@ -19349,10 +19525,7 @@ definitions:
           authority is the address that controls the module (defaults to x/gov
           unless overwritten).
       params:
-        description: |-
-          params defines the module parameters to update.
-
-          NOTE: All parameters must be supplied.
+        description: 'NOTE: All parameters must be supplied.'
         type: object
     description: MsgUpdateParams is the Msg/UpdateParams request type.
   agent.agent.MsgUpdateParamsResponse:

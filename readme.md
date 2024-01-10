@@ -71,3 +71,8 @@ npm install
 npm run dev
 ```
 
+```bash
+agentd tx agent ask-question "whats up?" --from alice --chain-id agent
+agentd q agent show-question 0
+```
+

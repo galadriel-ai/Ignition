@@ -17,6 +17,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod:      "ShowQuestion",
+					Use:            "show-question [id]",
+					Short:          "Query show-question",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -27,6 +34,18 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				{
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
+				},
+				{
+					RpcMethod:      "AskQuestion",
+					Use:            "ask-question [question]",
+					Short:          "Send a ask-question tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "question"}},
+				},
+				{
+					RpcMethod:      "AnswerQuestion",
+					Use:            "answer-question [answer] [id]",
+					Short:          "Send a answer-question tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "answer"}, {ProtoField: "id"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

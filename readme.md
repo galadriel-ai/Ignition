@@ -71,8 +71,16 @@ npm install
 npm run dev
 ```
 
+Generate endpoint
+```bash
+ignite scaffold message answer-question answer id:uint
+```
+
+Demo
 ```bash
 agentd tx agent ask-question "whats up?" --from alice --chain-id agent
+agentd q agent show-question 0
+agentd tx agent answer-question "the sky" 0 --from bob --chain-id agent
 agentd q agent show-question 0
 ```
 

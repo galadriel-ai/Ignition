@@ -56,3 +56,10 @@ func (k Keeper) GetAiquery(ctx sdk.Context, id uint64) (val types.Aiquery, found
 	k.cdc.MustUnmarshal(b, &val)
 	return val, true
 }
+
+func (k Keeper) SetAnswer(ctx sdk.Context, aiquery types.Aiquery) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.QuestionKey))
+	b := k.cdc.MustMarshal(&aiquery)
+	store.Set(GetQuestionIDBytes(aiquery.Id), b)
+}

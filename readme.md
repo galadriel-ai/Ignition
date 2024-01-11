@@ -82,7 +82,7 @@ npm run dev
 
 Generate type
 ```bash
-ignite scaffold type prompt text:string id:uint
+ignite scaffold type agentrun query:string responses:array.string functioncalls:array.string functionresults:array.string isfinished:bool id:uint
 ```
 
 Generate write endpoint

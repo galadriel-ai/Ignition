@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Query_Params_FullMethodName       = "/agent.agent.Query/Params"
 	Query_ShowQuestion_FullMethodName = "/agent.agent.Query/ShowQuestion"
+	Query_GetPrompt_FullMethodName    = "/agent.agent.Query/GetPrompt"
 )
 
 // QueryClient is the client API for Query service.
@@ -31,6 +32,8 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of ShowQuestion items.
 	ShowQuestion(ctx context.Context, in *QueryShowQuestionRequest, opts ...grpc.CallOption) (*QueryShowQuestionResponse, error)
+	// Queries a list of GetPrompt items.
+	GetPrompt(ctx context.Context, in *QueryGetPromptRequest, opts ...grpc.CallOption) (*QueryGetPromptResponse, error)
 }
 
 type queryClient struct {
@@ -59,6 +62,15 @@ func (c *queryClient) ShowQuestion(ctx context.Context, in *QueryShowQuestionReq
 	return out, nil
 }
 
+func (c *queryClient) GetPrompt(ctx context.Context, in *QueryGetPromptRequest, opts ...grpc.CallOption) (*QueryGetPromptResponse, error) {
+	out := new(QueryGetPromptResponse)
+	err := c.cc.Invoke(ctx, Query_GetPrompt_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -67,6 +79,8 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of ShowQuestion items.
 	ShowQuestion(context.Context, *QueryShowQuestionRequest) (*QueryShowQuestionResponse, error)
+	// Queries a list of GetPrompt items.
+	GetPrompt(context.Context, *QueryGetPromptRequest) (*QueryGetPromptResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -79,6 +93,9 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) ShowQuestion(context.Context, *QueryShowQuestionRequest) (*QueryShowQuestionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowQuestion not implemented")
+}
+func (UnimplementedQueryServer) GetPrompt(context.Context, *QueryGetPromptRequest) (*QueryGetPromptResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPrompt not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -129,6 +146,24 @@ func _Query_ShowQuestion_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetPrompt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetPromptRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetPrompt(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetPrompt_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetPrompt(ctx, req.(*QueryGetPromptRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +178,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ShowQuestion",
 			Handler:    _Query_ShowQuestion_Handler,
+		},
+		{
+			MethodName: "GetPrompt",
+			Handler:    _Query_GetPrompt_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

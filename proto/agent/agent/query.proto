@@ -13,17 +13,23 @@ option go_package = "agent/x/agent/types";
 
 // Query defines the gRPC querier service.
 service Query {
-
+  
   // Parameters queries the parameters of the module.
   rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/agent/agent/params";
-
+  
   }
-
+  
   // Queries a list of ShowQuestion items.
   rpc ShowQuestion (QueryShowQuestionRequest) returns (QueryShowQuestionResponse) {
     option (google.api.http).get = "/agent/agent/show_question/{id}";
-
+  
+  }
+  
+  // Queries a list of GetPrompt items.
+  rpc GetPrompt (QueryGetPromptRequest) returns (QueryGetPromptResponse) {
+    option (google.api.http).get = "/agent/agent/get_prompt/{id}";
+  
   }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -31,7 +37,7 @@ message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
-
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
@@ -47,3 +53,12 @@ message QueryShowQuestionResponse {
 message QueryShowPostResponse {
   Aiquery aiquery = 1 [(gogoproto.nullable) = false];
 }
+
+message QueryGetPromptRequest {
+  uint64 id = 1;
+}
+
+message QueryGetPromptResponse {
+  string text = 1;
+}
+

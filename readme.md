@@ -94,3 +94,9 @@ agentd tx agent answer-question "the sky" 0 --from bob --chain-id agent
 agentd q agent show-question 0
 ```
 
+Prompts
+```bash
+agentd tx agent add-prompt "You are a smart agent" --from alice --chain-id agent
+agentd q agent get-prompt 0
+```
+

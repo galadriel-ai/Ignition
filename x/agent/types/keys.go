@@ -23,6 +23,14 @@ const (
 	QuestionCountKey = "Question/count/"
 )
 
+const (
+	PromptKey = "Prompt/value/"
+)
+
+const (
+	PromptCountKey = "Prompt/count/"
+)
+
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }

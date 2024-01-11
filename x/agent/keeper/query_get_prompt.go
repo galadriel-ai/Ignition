@@ -10,16 +10,16 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) ShowQuestion(goCtx context.Context, req *types.QueryShowQuestionRequest) (*types.QueryShowQuestionResponse, error) {
+func (k Keeper) GetPrompt(goCtx context.Context, req *types.QueryGetPromptRequest) (*types.QueryGetPromptResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	question, found := k.GetAiquery(ctx, req.Id)
+	prompt, found := k.GetPromptText(ctx, req.Id)
 	if !found {
 		return nil, sdkerrors.ErrKeyNotFound
 	}
 
-	return &types.QueryShowQuestionResponse{Aiquery: &question}, nil
+	return &types.QueryGetPromptResponse{Text: prompt.Text}, nil
 }

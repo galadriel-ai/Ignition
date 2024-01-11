@@ -19,6 +19,7 @@ service Msg {
   rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
   rpc AskQuestion    (MsgAskQuestion   ) returns (MsgAskQuestionResponse   );
   rpc AnswerQuestion (MsgAnswerQuestion) returns (MsgAnswerQuestionResponse);
+  rpc AddPrompt      (MsgAddPrompt     ) returns (MsgAddPromptResponse     );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -56,4 +57,14 @@ message MsgAnswerQuestion {
 }
 
 message MsgAnswerQuestionResponse {}
+
+message MsgAddPrompt {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string text    = 2;
+}
+
+message MsgAddPromptResponse {
+  uint64 id = 1;
+}
 

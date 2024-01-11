@@ -31,6 +31,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAnswerQuestion int = 100
 
+	opWeightMsgAddPrompt = "op_weight_msg_add_prompt"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAddPrompt int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -81,6 +85,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		agentsimulation.SimulateMsgAnswerQuestion(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAddPrompt int
+	simState.AppParams.GetOrGenerate(opWeightMsgAddPrompt, &weightMsgAddPrompt, nil,
+		func(_ *rand.Rand) {
+			weightMsgAddPrompt = defaultWeightMsgAddPrompt
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAddPrompt,
+		agentsimulation.SimulateMsgAddPrompt(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -102,6 +117,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgAnswerQuestion,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				agentsimulation.SimulateMsgAnswerQuestion(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAddPrompt,
+			defaultWeightMsgAddPrompt,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				agentsimulation.SimulateMsgAddPrompt(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

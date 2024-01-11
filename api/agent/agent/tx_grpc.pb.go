@@ -22,6 +22,7 @@ const (
 	Msg_UpdateParams_FullMethodName   = "/agent.agent.Msg/UpdateParams"
 	Msg_AskQuestion_FullMethodName    = "/agent.agent.Msg/AskQuestion"
 	Msg_AnswerQuestion_FullMethodName = "/agent.agent.Msg/AnswerQuestion"
+	Msg_AddPrompt_FullMethodName      = "/agent.agent.Msg/AddPrompt"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	AskQuestion(ctx context.Context, in *MsgAskQuestion, opts ...grpc.CallOption) (*MsgAskQuestionResponse, error)
 	AnswerQuestion(ctx context.Context, in *MsgAnswerQuestion, opts ...grpc.CallOption) (*MsgAnswerQuestionResponse, error)
+	AddPrompt(ctx context.Context, in *MsgAddPrompt, opts ...grpc.CallOption) (*MsgAddPromptResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +72,15 @@ func (c *msgClient) AnswerQuestion(ctx context.Context, in *MsgAnswerQuestion, o
 	return out, nil
 }
 
+func (c *msgClient) AddPrompt(ctx context.Context, in *MsgAddPrompt, opts ...grpc.CallOption) (*MsgAddPromptResponse, error) {
+	out := new(MsgAddPromptResponse)
+	err := c.cc.Invoke(ctx, Msg_AddPrompt_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +90,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	AskQuestion(context.Context, *MsgAskQuestion) (*MsgAskQuestionResponse, error)
 	AnswerQuestion(context.Context, *MsgAnswerQuestion) (*MsgAnswerQuestionResponse, error)
+	AddPrompt(context.Context, *MsgAddPrompt) (*MsgAddPromptResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +106,9 @@ func (UnimplementedMsgServer) AskQuestion(context.Context, *MsgAskQuestion) (*Ms
 }
 func (UnimplementedMsgServer) AnswerQuestion(context.Context, *MsgAnswerQuestion) (*MsgAnswerQuestionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnswerQuestion not implemented")
+}
+func (UnimplementedMsgServer) AddPrompt(context.Context, *MsgAddPrompt) (*MsgAddPromptResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPrompt not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +177,24 @@ func _Msg_AnswerQuestion_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AddPrompt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAddPrompt)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AddPrompt(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AddPrompt_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AddPrompt(ctx, req.(*MsgAddPrompt))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +213,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AnswerQuestion",
 			Handler:    _Msg_AnswerQuestion_Handler,
+		},
+		{
+			MethodName: "AddPrompt",
+			Handler:    _Msg_AddPrompt_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

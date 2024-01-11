@@ -24,6 +24,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
 				},
 
+				{
+					RpcMethod:      "GetPrompt",
+					Use:            "get-prompt [id]",
+					Short:          "Query get-prompt",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -46,6 +53,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:            "answer-question [answer] [id]",
 					Short:          "Send a answer-question tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "answer"}, {ProtoField: "id"}},
+				},
+				{
+					RpcMethod:      "AddPrompt",
+					Use:            "add-prompt [text]",
+					Short:          "Send a add-prompt tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "text"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

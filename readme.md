@@ -71,6 +71,15 @@ npm install
 npm run dev
 ```
 
+
+## Agent flow
+
+- User posts text on chain
+- "Model" queries text and posts answer(s) on chain
+- If text contains function call then the answer pushing endpoint also saves function response as output?
+
+### Helpful commands
+
 Generate type
 ```bash
 ignite scaffold type prompt text:string id:uint

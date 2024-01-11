@@ -53,7 +53,7 @@ ignite scaffold query get-agent-run id:uint --response run:Agentrun
 - "Model" queries text and posts answer(s) on chain
 - If text contains function call then the answer pushing endpoint also saves function response
 
-![agent.jpg](..%2Fagent.jpg)
+![agent.jpg](agent.jpg)
 
 
 ## "e2e" demo

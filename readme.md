@@ -73,17 +73,17 @@ npm run dev
 
 Generate type
 ```bash
-ignite scaffold type prompt text id:uint
+ignite scaffold type prompt text:string id:uint
 ```
 
 Generate write endpoint
 ```bash
-ignite scaffold message update-prompt prompt --response id:uint
+ignite scaffold message add-prompt text --response id:uint
 ```
 
 Generate read endpoint
 ```bash
-ignite scaffold query get-prompt --response prompt:Prompt
+ignite scaffold query get-prompt id:uint --response text:string
 ```
 
 Demo

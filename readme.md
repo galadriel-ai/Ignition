@@ -71,9 +71,19 @@ npm install
 npm run dev
 ```
 
-Generate endpoint
+Generate type
 ```bash
-ignite scaffold message answer-question answer id:uint
+ignite scaffold type prompt text id:uint
+```
+
+Generate write endpoint
+```bash
+ignite scaffold message update-prompt prompt --response id:uint
+```
+
+Generate read endpoint
+```bash
+ignite scaffold query get-prompt --response prompt:Prompt
 ```
 
 Demo

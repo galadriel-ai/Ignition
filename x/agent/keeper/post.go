@@ -16,7 +16,7 @@ func (k Keeper) AppendPost(ctx sdk.Context, question types.Aiquery) uint64 {
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.QuestionKey))
 	appendedValue := k.cdc.MustMarshal(&question)
 	store.Set(GetQuestionIDBytes(question.Id), appendedValue)
-	k.QuestionCount(ctx, count+1)
+	k.SetQuestionCount(ctx, count+1)
 	return count
 }
 
@@ -37,10 +37,10 @@ func GetQuestionIDBytes(id uint64) []byte {
 	return bz
 }
 
-func (k Keeper) QuestionCount(ctx sdk.Context, count uint64) {
+func (k Keeper) SetQuestionCount(ctx sdk.Context, count uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.QuestionKey)
+	byteKey := types.KeyPrefix(types.QuestionCountKey)
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)

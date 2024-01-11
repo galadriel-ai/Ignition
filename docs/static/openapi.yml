@@ -4,88 +4,6 @@ info:
   name: ''
   description: ''
 paths:
-  /agent/agent/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: AgentAgentQuery_Params
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
-  /agent/agent/show_question/{id}:
-    get:
-      summary: Queries a list of ShowQuestion items.
-      operationId: AgentAgentQuery_ShowQuestion
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              aiquery:
-                type: object
-                properties:
-                  question:
-                    type: string
-                  answer:
-                    type: string
-                  id:
-                    type: string
-                    format: uint64
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
-          format: uint64
-      tags:
-        - Query
   /agent.agent.Msg/AnswerQuestion:
     post:
       operationId: AgentAgentMsg_AnswerQuestion
@@ -19131,6 +19049,51 @@ paths:
       tags:
         - Msg
 definitions:
+  agent.agent.MsgAnswerQuestion:
+    type: object
+    properties:
+      creator:
+        type: string
+      answer:
+        type: string
+      id:
+        type: string
+        format: uint64
+  agent.agent.MsgAnswerQuestionResponse:
+    type: object
+  agent.agent.MsgAskQuestion:
+    type: object
+    properties:
+      creator:
+        type: string
+      question:
+        type: string
+  agent.agent.MsgAskQuestionResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  agent.agent.MsgUpdateParams:
+    type: object
+    properties:
+      authority:
+        type: string
+        description: >-
+          authority is the address that controls the module (defaults to x/gov
+          unless overwritten).
+      params:
+        description: 'NOTE: All parameters must be supplied.'
+        type: object
+    description: MsgUpdateParams is the Msg/UpdateParams request type.
+  agent.agent.MsgUpdateParamsResponse:
+    type: object
+    description: |-
+      MsgUpdateParamsResponse defines the response structure for executing a
+      MsgUpdateParams message.
+  agent.agent.Params:
+    type: object
+    description: Params defines the parameters for the module.
   google.protobuf.Any:
     type: object
     properties:
@@ -19458,81 +19421,6 @@ definitions:
                   "@type": "type.googleapis.com/google.protobuf.Duration",
                   "value": "1.212s"
                 }
-  agent.agent.Aiquery:
-    type: object
-    properties:
-      question:
-        type: string
-      answer:
-        type: string
-      id:
-        type: string
-        format: uint64
-  agent.agent.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  agent.agent.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
-  agent.agent.QueryShowQuestionResponse:
-    type: object
-    properties:
-      aiquery:
-        type: object
-        properties:
-          question:
-            type: string
-          answer:
-            type: string
-          id:
-            type: string
-            format: uint64
-  agent.agent.MsgAnswerQuestion:
-    type: object
-    properties:
-      creator:
-        type: string
-      answer:
-        type: string
-      id:
-        type: string
-        format: uint64
-  agent.agent.MsgAnswerQuestionResponse:
-    type: object
-  agent.agent.MsgAskQuestion:
-    type: object
-    properties:
-      creator:
-        type: string
-      question:
-        type: string
-  agent.agent.MsgAskQuestionResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        format: uint64
-  agent.agent.MsgUpdateParams:
-    type: object
-    properties:
-      authority:
-        type: string
-        description: >-
-          authority is the address that controls the module (defaults to x/gov
-          unless overwritten).
-      params:
-        description: 'NOTE: All parameters must be supplied.'
-        type: object
-    description: MsgUpdateParams is the Msg/UpdateParams request type.
-  agent.agent.MsgUpdateParamsResponse:
-    type: object
-    description: |-
-      MsgUpdateParamsResponse defines the response structure for executing a
-      MsgUpdateParams message.
   cosmos.auth.v1beta1.MsgUpdateParams:
     type: object
     properties:

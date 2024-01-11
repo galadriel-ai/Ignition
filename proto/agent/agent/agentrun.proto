@@ -5,10 +5,11 @@ option go_package = "agent/x/agent/types";
 
 message Agentrun {
   
-  string query = 1; 
-  repeated string responses = 2; 
-  repeated string functioncalls = 3; 
-  repeated string functionresults = 4; 
+  string query = 1;
+  repeated string responses = 2;
+  repeated string functioncalls = 3;
+  repeated string functionresults = 4;
   bool isfinished = 5; 
-  uint64 id = 6; 
+  uint64 id = 6;
+  uint64 prompt = 7;
 }

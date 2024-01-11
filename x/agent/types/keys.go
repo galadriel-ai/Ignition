@@ -31,6 +31,14 @@ const (
 	PromptCountKey = "Prompt/count/"
 )
 
+const (
+	AgentrunKey = "Agentrun/value/"
+)
+
+const (
+	AgentrunCountKey = "Agentrun/count/"
+)
+
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }

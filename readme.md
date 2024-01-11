@@ -82,17 +82,17 @@ npm run dev
 
 Generate type
 ```bash
-ignite scaffold type agentrun query:string responses:array.string functioncalls:array.string functionresults:array.string isfinished:bool id:uint
+ignite scaffold type agentrun prompt:uint query:string responses:array.string functioncalls:array.string functionresults:array.string isfinished:bool id:uint
 ```
 
 Generate write endpoint
 ```bash
-ignite scaffold message add-prompt text --response id:uint
+ignite scaffold message run-agent text promptid:uint --response id:uint
 ```
 
 Generate read endpoint
 ```bash
-ignite scaffold query get-prompt id:uint --response text:string
+ignite scaffold query get-agent-run id:uint --response run:Agentrun
 ```
 
 Demo
@@ -109,3 +109,9 @@ agentd tx agent add-prompt "You are a smart agent" --from alice --chain-id agent
 agentd q agent get-prompt 0
 ```
 
+Agents
+
+```bash
+agentd tx agent run-agent "whats 3+1?" 0 --from alice --chain-id agent
+agentd q agent get-agent-run 0
+```

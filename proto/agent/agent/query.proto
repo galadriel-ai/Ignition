@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "agent/agent/params.proto";
 import "agent/agent/aiquery.proto";
+import "agent/agent/agentrun.proto";
 
 option go_package = "agent/x/agent/types";
 
@@ -29,6 +30,12 @@ service Query {
   // Queries a list of GetPrompt items.
   rpc GetPrompt (QueryGetPromptRequest) returns (QueryGetPromptResponse) {
     option (google.api.http).get = "/agent/agent/get_prompt/{id}";
+  
+  }
+  
+  // Queries a list of GetAgentRun items.
+  rpc GetAgentRun (QueryGetAgentRunRequest) returns (QueryGetAgentRunResponse) {
+    option (google.api.http).get = "/agent/agent/get_agent_run/{id}";
   
   }
 }
@@ -60,5 +67,13 @@ message QueryGetPromptRequest {
 
 message QueryGetPromptResponse {
   string text = 1;
+}
+
+message QueryGetAgentRunRequest {
+  uint64 id = 1;
+}
+
+message QueryGetAgentRunResponse {
+  Agentrun run = 1;
 }
 

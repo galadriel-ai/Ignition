@@ -39,6 +39,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgRunAgent int = 100
 
+	opWeightMsgAddResponse = "op_weight_msg_add_response"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAddResponse int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -111,6 +115,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		agentsimulation.SimulateMsgRunAgent(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAddResponse int
+	simState.AppParams.GetOrGenerate(opWeightMsgAddResponse, &weightMsgAddResponse, nil,
+		func(_ *rand.Rand) {
+			weightMsgAddResponse = defaultWeightMsgAddResponse
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAddResponse,
+		agentsimulation.SimulateMsgAddResponse(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -148,6 +163,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgRunAgent,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				agentsimulation.SimulateMsgRunAgent(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAddResponse,
+			defaultWeightMsgAddResponse,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				agentsimulation.SimulateMsgAddResponse(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

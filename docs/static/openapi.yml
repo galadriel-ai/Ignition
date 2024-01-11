@@ -228,6 +228,54 @@ paths:
                 type: string
       tags:
         - Msg
+  /agent.agent.Msg/AddResponse:
+    post:
+      operationId: AgentAgentMsg_AddResponse
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              response:
+                type: string
+              isfinished:
+                type: boolean
+              runid:
+                type: string
+                format: uint64
+      tags:
+        - Msg
   /agent.agent.Msg/AnswerQuestion:
     post:
       operationId: AgentAgentMsg_AnswerQuestion
@@ -19745,6 +19793,24 @@ definitions:
       text:
         type: string
   agent.agent.MsgAddPromptResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  agent.agent.MsgAddResponse:
+    type: object
+    properties:
+      creator:
+        type: string
+      response:
+        type: string
+      isfinished:
+        type: boolean
+      runid:
+        type: string
+        format: uint64
+  agent.agent.MsgAddResponseResponse:
     type: object
     properties:
       id:

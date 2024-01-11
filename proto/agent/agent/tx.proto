@@ -21,6 +21,7 @@ service Msg {
   rpc AnswerQuestion (MsgAnswerQuestion) returns (MsgAnswerQuestionResponse);
   rpc AddPrompt      (MsgAddPrompt     ) returns (MsgAddPromptResponse     );
   rpc RunAgent       (MsgRunAgent      ) returns (MsgRunAgentResponse      );
+  rpc AddResponse    (MsgAddResponse   ) returns (MsgAddResponseResponse   );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -77,6 +78,18 @@ message MsgRunAgent {
 }
 
 message MsgRunAgentResponse {
+  uint64 id = 1;
+}
+
+message MsgAddResponse {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  string response   = 2;
+  bool   isfinished = 3;
+  uint64 runid      = 4;
+}
+
+message MsgAddResponseResponse {
   uint64 id = 1;
 }
 

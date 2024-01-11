@@ -73,6 +73,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a run-agent tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "text"}, {ProtoField: "promptid"}},
 				},
+				{
+					RpcMethod:      "AddResponse",
+					Use:            "add-response [response] [isfinished] [runid]",
+					Short:          "Send a add-response tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "response"}, {ProtoField: "isfinished"}, {ProtoField: "runid"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

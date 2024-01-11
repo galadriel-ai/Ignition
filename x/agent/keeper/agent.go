@@ -23,7 +23,7 @@ func (k Keeper) AppendAgentRun(ctx sdk.Context, question types.Agentrun) uint64 
 func (k Keeper) GetAgentRunCount(ctx sdk.Context) uint64 {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.AgentrunKey)
+	byteKey := types.KeyPrefix(types.AgentrunCountKey)
 	bz := store.Get(byteKey)
 	if bz == nil {
 		return 0
@@ -40,7 +40,7 @@ func GetAgentrunIDBytes(id uint64) []byte {
 func (k Keeper) SetAgentrunCount(ctx sdk.Context, count uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, []byte{})
-	byteKey := types.KeyPrefix(types.AgentrunKey)
+	byteKey := types.KeyPrefix(types.AgentrunCountKey)
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
@@ -57,10 +57,10 @@ func (k Keeper) GetAgentrun(ctx sdk.Context, id uint64) (val types.Agentrun, fou
 	return val, true
 }
 
-// TODO: write logic
-func (k Keeper) AddResponse(ctx sdk.Context, aiquery types.Agentrun) {
+// TODO: validate this
+func (k Keeper) UpdateAgentRun(ctx sdk.Context, agentRun types.Agentrun) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.AgentrunKey))
-	b := k.cdc.MustMarshal(&aiquery)
-	store.Set(GetAgentrunIDBytes(aiquery.Id), b)
+	b := k.cdc.MustMarshal(&agentRun)
+	store.Set(GetAgentrunIDBytes(agentRun.Id), b)
 }

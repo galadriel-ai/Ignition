@@ -24,6 +24,7 @@ const (
 	Msg_AnswerQuestion_FullMethodName = "/agent.agent.Msg/AnswerQuestion"
 	Msg_AddPrompt_FullMethodName      = "/agent.agent.Msg/AddPrompt"
 	Msg_RunAgent_FullMethodName       = "/agent.agent.Msg/RunAgent"
+	Msg_AddResponse_FullMethodName    = "/agent.agent.Msg/AddResponse"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,6 +38,7 @@ type MsgClient interface {
 	AnswerQuestion(ctx context.Context, in *MsgAnswerQuestion, opts ...grpc.CallOption) (*MsgAnswerQuestionResponse, error)
 	AddPrompt(ctx context.Context, in *MsgAddPrompt, opts ...grpc.CallOption) (*MsgAddPromptResponse, error)
 	RunAgent(ctx context.Context, in *MsgRunAgent, opts ...grpc.CallOption) (*MsgRunAgentResponse, error)
+	AddResponse(ctx context.Context, in *MsgAddResponse, opts ...grpc.CallOption) (*MsgAddResponseResponse, error)
 }
 
 type msgClient struct {
@@ -92,6 +94,15 @@ func (c *msgClient) RunAgent(ctx context.Context, in *MsgRunAgent, opts ...grpc.
 	return out, nil
 }
 
+func (c *msgClient) AddResponse(ctx context.Context, in *MsgAddResponse, opts ...grpc.CallOption) (*MsgAddResponseResponse, error) {
+	out := new(MsgAddResponseResponse)
+	err := c.cc.Invoke(ctx, Msg_AddResponse_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -103,6 +114,7 @@ type MsgServer interface {
 	AnswerQuestion(context.Context, *MsgAnswerQuestion) (*MsgAnswerQuestionResponse, error)
 	AddPrompt(context.Context, *MsgAddPrompt) (*MsgAddPromptResponse, error)
 	RunAgent(context.Context, *MsgRunAgent) (*MsgRunAgentResponse, error)
+	AddResponse(context.Context, *MsgAddResponse) (*MsgAddResponseResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -124,6 +136,9 @@ func (UnimplementedMsgServer) AddPrompt(context.Context, *MsgAddPrompt) (*MsgAdd
 }
 func (UnimplementedMsgServer) RunAgent(context.Context, *MsgRunAgent) (*MsgRunAgentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunAgent not implemented")
+}
+func (UnimplementedMsgServer) AddResponse(context.Context, *MsgAddResponse) (*MsgAddResponseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddResponse not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -228,6 +243,24 @@ func _Msg_RunAgent_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AddResponse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAddResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AddResponse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AddResponse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AddResponse(ctx, req.(*MsgAddResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -254,6 +287,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RunAgent",
 			Handler:    _Msg_RunAgent_Handler,
+		},
+		{
+			MethodName: "AddResponse",
+			Handler:    _Msg_AddResponse_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
